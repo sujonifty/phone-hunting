@@ -72,9 +72,28 @@ const loadingSpinner =(isSpinner) => {
 const handleShowDetails = async (id) => {
   const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
   const data = await res.json();
-  console.log(data);
+  const phone =data.data;
+  showPhoneDetails(phone)
 }
-
+const showPhoneDetails = (phone) =>{
+  const phoneName = document.getElementById('phone-name');
+  phoneName.innerText = phone.name;
+  const showDetailsContainer = document.getElementById('show-details-container');
+  showDetailsContainer.innerHTML = `
+  <img class="text-center" src="${phone.image}" alt="phone">
+  <p>Storage: ${phone?.mainFeatures?.storage}</p>
+  <p>DisplaySize: ${phone?.mainFeatures?.displaySize}</p>
+  <p>ChipSet: ${phone?.mainFeatures?.chipSet}</p>
+  <p>Memory: ${phone?.mainFeatures?.memory}</p>
+  <p>Slug: ${phone?.slug}</p>
+  <p>Release date: ${phone?.releaseDate}</p>
+  <p>Brand: ${phone?.brand}</p>
+  <p>GPS: ${phone?.others?.GPS || 'No GPS'}</p>
+  `
+  // console.log(phone);
+  // show the modal
+  show_details_modal.showModal();
+}
 // show all if clicked show all button. this is not proper way to show all
 const handleShowAll = () =>{
   handleSearch(true);
